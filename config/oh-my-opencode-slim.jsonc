@@ -1,0 +1,71 @@
+{
+  // Пресет "roblox" для oh-my-opencode-slim.
+  // Файл: %USERPROFILE%\.config\opencode\oh-my-opencode-slim.jsonc
+  //
+  // Логика выбора моделей:
+  // - в OpenCode GO лимит считается ПО КАЖДОЙ МОДЕЛИ отдельно,
+  //   поэтому агенты разведены по разным моделям — суммарно доступно больше;
+  // - дорогие модели (deepseek-v4-pro) стоят только там, где они реально нужны.
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "preset": "roblox",
+
+  "presets": {
+    "roblox": {
+      // Бригадир: планирует, раздаёт задачи, собирает результат.
+      // deepseek-v4.1-flash — самый большой месячный лимит в Go-плане.
+      "orchestrator": {
+        "model": "opencode-go/deepseek-v4.1-flash",
+        "skills": ["*"],
+        "mcps": ["*", "!context7"]
+      },
+
+      // Программист: пишет Luau. kimi-k2.7-code заточен под код.
+      "fixer": {
+        "model": "opencode-go/kimi-k2.7-code",
+        "variant": "medium",
+        "skills": [],
+        "mcps": ["Roblox_Studio"]
+      },
+
+      // Старший инженер: ревью, архитектура, поиск дыр. Зовётся нечасто.
+      "oracle": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "variant": "high",
+        "skills": ["simplify"],
+        "mcps": ["Roblox_Studio"]
+      },
+
+      // Разведчик: быстро читает место/файлы. Самая дешёвая модель.
+      "explorer": {
+        "model": "opencode-go/mimo-v2.6-flash",
+        "variant": "low",
+        "skills": [],
+        "mcps": ["Roblox_Studio"]
+      },
+
+      // Исследователь: документация Roblox, форумы, примеры.
+      "librarian": {
+        "model": "opencode-go/glm-5.3-flash",
+        "variant": "low",
+        "skills": [],
+        "mcps": ["websearch", "grep_app", "chromium"]
+      },
+
+      // Дизайнер: UI, HUD, адаптив под телефон.
+      "designer": {
+        "model": "opencode-go/qwen3.7-plus",
+        "variant": "medium",
+        "skills": ["agent-browser"],
+        "mcps": ["Roblox_Studio", "chromium"]
+      },
+
+      // Совет (если включён в плагине): редкие спорные решения.
+      "council": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      }
+    }
+  }
+}

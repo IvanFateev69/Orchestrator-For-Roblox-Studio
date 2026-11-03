@@ -1,0 +1,54 @@
+{
+  // Пример глобального конфига OpenCode для работы с Roblox.
+  // Файл: %USERPROFILE%\.config\opencode\opencode.jsonc
+  // ВАЖНО: не заменяй свой конфиг целиком — добавь только нужные ключи.
+  "$schema": "https://opencode.ai/config.json",
+
+  "plugin": [
+    "oh-my-opencode-slim"
+  ],
+
+  "mcp": {
+    // Мост к Roblox Studio (встроенный сервер, создаётся самой Studio)
+    "Roblox_Studio": {
+      "type": "local",
+      "command": [
+        "cmd.exe",
+        "/c",
+        "%LOCALAPPDATA%\\Roblox\\mcp.bat"
+      ],
+      "enabled": true
+    },
+
+    // Blender: нужен установленный uv (winget install --id=astral-sh.uv -e)
+    // и аддон в Blender: uvx mcp-for-blender install-addon
+    "blender": {
+      "type": "local",
+      "command": [
+        "cmd",
+        "/c",
+        "uvx",
+        "mcp-for-blender"
+      ],
+      "enabled": true
+    },
+
+    // Браузер для агента: позволяет читать сайты, документацию, форумы
+    "chromium": {
+      "type": "local",
+      "command": [
+        "cmd",
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "enabled": true
+    }
+  },
+
+  // Первый запуск uvx/npx скачивает пакеты — дефолтных 5–30 с не хватает
+  "experimental": {
+    "mcp_timeout": 120000
+  }
+}
